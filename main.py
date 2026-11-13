@@ -9,6 +9,7 @@ import os
 import sys
 
 PNG_SIGNATURE = b"\x89PNG\r\n\x1a\n"
+JPEG_SIGNATURE = b"\xff\xd8\xff"
 
 
 def source_path():
@@ -43,8 +44,8 @@ def main():
         print("error: cannot read %s: %s" % (src, exc), file=sys.stderr)
         return 1
 
-    if not data.startswith(PNG_SIGNATURE):
-        print("error: %s is not a PNG file" % src, file=sys.stderr)
+    if not (data.startswith(PNG_SIGNATURE) or data.startswith(JPEG_SIGNATURE)):
+        print("error: %s is neither PNG nor JPEG" % src, file=sys.stderr)
         return 1
 
     src_real = os.path.realpath(src)
